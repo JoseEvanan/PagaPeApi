@@ -3,11 +3,12 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def _send_email(receiver):
+def _send_email(email, name, description,
+                             endDate, amount, confirmation):
     # me == my email address
     # you == recipient's email address
     me = "jose.evanan@gmail.com"
-    you = receiver
+    you = email
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
     msg['Subject'] = "PagaPe"
@@ -21,14 +22,13 @@ def _send_email(receiver):
     <head></head>
     <body>
         <img src="https://scontent.faqp1-1.fna.fbcdn.net/v/t34.0-12/22901695_1930361390547116_415760123_n.png?oh=3bd1675bc7bb567e84baaad992e2e49b&oe=59F5D614" >
-        <p>Hola!Christhian<br>
-        Como estas?<br>
-        Tienes una deuda, si no pagas te cortaremos las piernas como en está imagen <a href="http://data.whicdn.com/images/242779165/original.jpg">link</a>.
+        <p>Hola! {}<br>
+        {}<br>
+        Tienes una deuda de {}, tienes para cancelar hasta {} <a href="http://pagape.com/confirmar/{}">link</a>.
         </p>
     </body>
     </html>
-    """
-
+    """.format( name, description,amount, endDate, confirmation)
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
